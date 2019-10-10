@@ -51,7 +51,7 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
       Object.keys(params.filter || {}).forEach((key) => {
         query[`filter[${key}]`] = params.filter[key];
       });
-
+      console.log(query);
       // Add sort parameter
       if (params.sort && params.sort.field) {
         const prefix = params.sort.order === 'ASC' ? '' : '-';
@@ -97,8 +97,17 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
 
     case GET_MANY: {
       const query = {
-        filter: JSON.stringify({ id: params.ids }),
+        filter: {
+          id: []
+        }
       };
+      // Add all filter params to query.
+      console.log(params.ids);
+      Object.keys(params.ids || {}).forEach((key) => {
+        query.filter['id'][key] = params.ids[key];
+      });
+
+      console.log(query);
       url = `${apiUrl}/${resource}?${stringify(query)}`;
       break;
     }
@@ -119,7 +128,7 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
 
       // Add the reference id to the filter params.
       query[`filter[${params.target}]`] = params.id;
-
+      
       url = `${apiUrl}/${resource}?${stringify(query)}`;
       break;
     }
@@ -138,7 +147,7 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
               { id: value.id },
               value.attributes,
             )),
-            total: response.data.meta[settings.total],
+            total: response.data.meta.page.total,
           };
         }
 
