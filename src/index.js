@@ -51,7 +51,7 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
       Object.keys(params.filter || {}).forEach((key) => {
         query[`filter[${key}]`] = params.filter[key];
       });
-      console.log(query);
+
       // Add sort parameter
       if (params.sort && params.sort.field) {
         const prefix = params.sort.order === 'ASC' ? '' : '-';
@@ -101,13 +101,12 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
           id: []
         }
       };
+
       // Add all filter params to query.
-      console.log(params.ids);
       Object.keys(params.ids || {}).forEach((key) => {
         query.filter['id'][key] = params.ids[key];
       });
 
-      console.log(query);
       url = `${apiUrl}/${resource}?${stringify(query)}`;
       break;
     }
