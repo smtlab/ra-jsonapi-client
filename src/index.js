@@ -143,20 +143,20 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
         case GET_LIST: {
           return {
             data: response.data.data.map(value => Object.assign(
-              { id: value.id },
+              { id: parseInt(value.id) },
               value.attributes,
             )),
-            total: response.data.meta.page.total,
+            total: response.data.meta != undefined && response.data.meta.page != undefined ? response.data.meta.page.total : response.data.count,
           };
         }
 
         case GET_MANY_REFERENCE: {
           return {
             data: response.data.data.map(value => Object.assign(
-              { id: value.id },
+              { id: parseInt(value.id) },
               value.attributes,
             )),
-            total: response.data.meta[settings.total],
+            total: response.data.meta != undefined && response.data.meta.page != undefined ? response.data.meta.page.total : response.data.count,
           };
         }
 
