@@ -191,6 +191,7 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
         }
 
         case DELETE: {
+
           return {
             data: { id: params.id },
           };
