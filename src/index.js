@@ -79,7 +79,7 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
       delete params.data.id;
       const data = {
         data: {
-          id: params.id,
+          id: params.id.toString(),
           type: resource,
           attributes: params.data,
         },
@@ -161,6 +161,7 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
         }
 
         case GET_ONE: {
+          response.data.data.id = parseInt(response.data.data.id);
           const { id, attributes } = response.data.data;
 
           return {
@@ -181,6 +182,7 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
         }
 
         case UPDATE: {
+          response.data.data.id = parseInt(response.data.data.id);
           const { id, attributes } = response.data.data;
 
           return {
