@@ -75,16 +75,16 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
       break;
 
     case UPDATE: {
+      console.log(params);
       url = `${apiUrl}/${resource}/${params.id}`;
-      delete params.data.id;
-      const data = {
+      let data = {
         data: {
           id: params.id.toString(),
           type: resource,
           attributes: params.data,
         },
       };
-
+      delete data.data.attributes.id;
       options.method = settings.updateMethod;
       options.data = JSON.stringify(data);
       break;
@@ -184,7 +184,6 @@ export default (apiUrl, userSettings = {}) => (type, resource, params) => {
         case UPDATE: {
           response.data.data.id = parseInt(response.data.data.id);
           const { id, attributes } = response.data.data;
-
           return {
             data: {
               id, ...attributes,
